@@ -3,7 +3,7 @@
 %global python3_pkgversion %{nil}
 
 # The function of bootstrap is that it disables the wheel subpackage
-%bcond_without bootstrap
+%bcond_with bootstrap
 # SCL: Tests turned off due to missing dependencies
 %bcond_with tests
 
@@ -13,7 +13,7 @@
 
 Name:           %{?scl_prefix}python-%{pypi_name}
 Version:        0.33.6
-Release:        5.bootstrap%{?dist}
+Release:        7%{?dist}
 Summary:        Built-package format for Python
 
 License:        MIT
@@ -89,6 +89,8 @@ set -ex
 set -ex
 %py3_install
 mv %{buildroot}%{_bindir}/%{pypi_name}{,-%{python3_version}}
+ln -s ./%{pypi_name}-%{python3_version} %{buildroot}%{_bindir}/%{pypi_name}-3
+ln -s ./%{pypi_name}-3 %{buildroot}%{_bindir}/%{pypi_name}
 
 %if %{without bootstrap}
 mkdir -p %{buildroot}%{python_wheeldir}
@@ -111,6 +113,8 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-3.8 -v --ignore build
 %files
 %license LICENSE.txt
 %doc README.rst
+%{_bindir}/%{pypi_name}
+%{_bindir}/%{pypi_name}-3
 %{_bindir}/%{pypi_name}-%{python3_version}
 %{python3_sitelib}/%{pypi_name}*
 
@@ -124,6 +128,14 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-3.8 -v --ignore build
 
 
 %changelog
+* Thu Jan 30 2020 Tomas Orsava <torsava@redhat.com> - 0.33.6-7
+- Add unversioned binaries
+- Resolves: rhbz#1671025
+
+* Thu Jan 30 2020 Tomas Orsava <torsava@redhat.com> - 0.33.6-6
+- Finish bootstrapping
+- Resolves: rhbz#1671025
+
 * Wed Jan 29 2020 Tomas Orsava <torsava@redhat.com> - 0.33.6-5.bootstrap
 - Modified the specfile for the rh-python38 RHSCL
 - Start bootstrapping
