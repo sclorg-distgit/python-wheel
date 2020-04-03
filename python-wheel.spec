@@ -13,7 +13,7 @@
 
 Name:           %{?scl_prefix}python-%{pypi_name}
 Version:        0.33.6
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Built-package format for Python
 
 License:        MIT
@@ -128,6 +128,10 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-3.8 -v --ignore build
 
 
 %changelog
+* Fri Feb 07 2020 Tomas Orsava <torsava@redhat.com> - 0.33.6-8
+- Rebuild
+- Resolves: rhbz#1671025
+
 * Thu Jan 30 2020 Tomas Orsava <torsava@redhat.com> - 0.33.6-7
 - Add unversioned binaries
 - Resolves: rhbz#1671025
